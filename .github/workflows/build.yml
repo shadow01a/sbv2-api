@@ -1,0 +1,54 @@
+name: Release Windows CPU Binary
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          target: x86_64-pc-windows-msvc
+
+      - name: Build Release
+        run: |
+          cargo build --release -p sbv2_api --no-default-features --features aivmx
+        env:
+          RUSTFLAGS: "-C target-feature=+crt-static"
+
+      - name: Prepare artifacts [Windows]
+        run: |
+          mkdir staging
+          copy target\release\sbv2_api.exe staging\
+          copy README.md staging\
+          copy LICENSE staging\
+          echo Creating ZIP archive
+          cd staging
+          7z a ../sbv2-api-windows-cpu.zip *
+        shell: cmd
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            sbv2-api-windows-cpu.zip
+          draft: true
+          prerelease: true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbv2-api-windows-cpu
+          path: sbv2-api-windows-cpu.zip

@@ -1,0 +1,12 @@
+target/
+models/
+!models/.gitkeep
+venv/
+.env
+*.wav
+node_modules/
+dist/
+*.csv
+*.bin
+*.log
+*.exe
