@@ -14,7 +14,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     } else {
         println!("cargo:warning=Downloading dictionary file...");
         let mut response =
-            ureq::get("https://huggingface.co/neody/sbv2-api-assets/resolve/main/dic/all.bin")
+            ureq::get("https://hf-mirror.com/neody/sbv2-api-assets/resolve/main/dic/all.bin")
                 .call()?;
         let mut response = response.body_mut().as_reader();
         if !static_dir.exists() {

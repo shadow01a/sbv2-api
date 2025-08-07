@@ -8,7 +8,7 @@ edition = "2021"
 description = "Style-Bert-VITSの推論ライブラリ"
 license = "MIT"
 readme = "./README.md"
-repository = "https://github.com/neodyland/sbv2-api"
+repository = "https://ghfast.top/github.com/neodyland/sbv2-api"
 documentation = "https://docs.rs/sbv2_core"
 
 [workspace.dependencies]
